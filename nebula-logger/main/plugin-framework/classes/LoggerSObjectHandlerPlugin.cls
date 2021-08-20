@@ -10,6 +10,7 @@
 // TODO: If possible, convert to `global` for the managed package - there are some additional platform limitations
 //       and restrictions with making future changes to abstract classes & interfaces within managed packages
 //       which could lead to a lot of problems, so for now/indefinitely, plugins will only work in the unlocked package
+@NamespaceAccessible
 public abstract class LoggerSObjectHandlerPlugin {
     /**
      * @description All instances of `LoggerSObjectHandlerPlugin` are dynamically created, which requires aparameterless constructor
@@ -29,6 +30,7 @@ public abstract class LoggerSObjectHandlerPlugin {
      * @param  triggerOld           The value `Trigger.old` at the time that the handler class is created
      * @param  triggerOldMap        The value `Trigger.oldMap` at the time that the handler class is created
      */
+    @NamespaceAccessible
     public abstract void execute(
         TriggerOperation triggerOperationType,
         List<SObject> triggerNew,
