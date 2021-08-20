@@ -4,5 +4,5 @@
     >Used to configure additional Apex classes and Flows that should be executed all trigger operations on LogEntryEvent__e, Log__c and LogEntry__c</description>
     <label>Logger Plugin</label>
     <pluralLabel>Logger Plugins</pluralLabel>
-    <visibility>Protected</visibility>
+    <visibility>Public</visibility>
 </CustomObject>
