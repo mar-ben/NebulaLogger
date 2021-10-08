@@ -38,7 +38,7 @@ on:
 
 jobs:
     commit-something:
-        name: 'LWC Tests'
+        name: 'Commit some file'
         runs-on: ubuntu-latest
         environment: Test
         steps:
@@ -47,8 +47,8 @@ jobs:
 
             - name: 'Create and commit a file'
               run: |
-                  git config --local user.email "test@github.com"
-                  git config --local user.name "GitHub Action test"
+                  git config --local user.email "action@github.com"
+                  git config --local user.name "GitHub Action Bot"
                   echo "Hello, world" >> someFile.txt
                   git add someFile.txt
                   git commit -m "Add changes"
