@@ -65,6 +65,20 @@ jobs:
             - name: 'Install Salesforce CLI'
               run: npm install sfdx-cli --global
 
+            - name: 'Populate Org Auth Files'
+              shell: bash
+              run: |
+                  echo ${{ env.DEVHUB_SFDX_URL }} > ./DEVHUB_SFDX_URL.txt
+              env:
+                  DEVHUB_SFDX_URL: ${{ secrets.DEVHUB_SFDX_URL }}
+
+            - name: 'Authorize Orgs'
+              run: |
+                  sfdx auth:sfdxurl:store --sfdxurlfile ./DEVHUB_SFDX_URL.txt --setalias nebula-logger-packaging --setdefaultdevhubusername
+
+            - name: 'Package Version Number verification'
+              run: npm run package:version:number:verify
+
             - name: 'LWC Lint verification'
               run: npm run lint:verify
 
@@ -224,7 +238,7 @@ jobs:
                   sfdx auth:sfdxurl:store --sfdxurlfile ./NEBULA_PKG_DEMO_SANDBOX_SFDX_URL.txt --setalias nebula-logger-package-demo
 
             - name: 'Create & Install Package Version'
-              run: npx pwsh ./scripts/create-and-install-unvalidated-package-version.ps1 -targetusername nebula-logger-package-demo
+              run: npx pwsh ./scripts/create-and-install-package-version.ps1 -targetusername nebula-logger-package-demo
 
             - name: 'Reinstall Latest Released Package Version'
               run: npx pwsh ./scripts/install-latest-released-unlocked-package-version.ps1 -targetusername nebula-logger-package-demo
