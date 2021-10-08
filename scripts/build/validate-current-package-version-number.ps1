@@ -6,7 +6,8 @@ function Get-SFDX-Project-Version-Number {
 }
 
 function Get-Latest-Released-Version-Number {
-    $latestReleasedPackageVersionNumber = (sfdx force:package:version:list --packages "Nebula Logger - Unlocked Package" --released --orderby "MajorVersion DESC, MinorVersion DESC, PatchVersion DESC" --json | ConvertFrom-Json).result[0].Version
+    npx sfdx version
+    $latestReleasedPackageVersionNumber = (npx sfdx force:package:version:list --packages "Nebula Logger - Unlocked Package" --released --orderby "MajorVersion DESC, MinorVersion DESC, PatchVersion DESC" --json | ConvertFrom-Json).result[0].Version
     $latestReleasedPackageVersionNumber = $latestReleasedPackageVersionNumber.substring(0, $latestReleasedPackageVersionNumber.LastIndexOf('.'))
     return $latestReleasedPackageVersionNumber
 }

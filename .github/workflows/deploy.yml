@@ -75,8 +75,7 @@ jobs:
 
             - name: 'Package Version Number verification'
               run: |
-                  alias sfdx="npx sfdx"
-                  sfdx version
+                  npx sfdx version
                   npm run package:version:number:verify
 
             - name: 'LWC Lint verification'

@@ -4,7 +4,7 @@ param ([string]$targetusername)
 
 Write-Output "Target Username: $targetusername"
 
-sfdx force:package:version:create --json --package "Nebula Logger - Unlocked Package" --codecoverage --installationkeybypass --wait 30 > package-create-output.json
+npx sfdx force:package:version:create --json --package "Nebula Logger - Unlocked Package" --codecoverage --installationkeybypass --wait 30 > package-create-output.json
 $packageVersionCreateOutput = Get-Content -Path ./package-create-output.json | ConvertFrom-Json
 Write-Output "Package Version Create Output: $packageVersionCreateOutput"
 
@@ -12,4 +12,4 @@ $packageVersionId = $packageVersionCreateOutput[0].result.SubscriberPackageVersi
 Write-Output "New Package Version ID: $packageVersionId"
 
 Write-Output "Installing package in org: $targetusername"
-sfdx force:package:install --noprompt --targetusername $targetusername --wait 20 --package $packageVersionId
+npx sfdx force:package:install --noprompt --targetusername $targetusername --wait 20 --package $packageVersionId
