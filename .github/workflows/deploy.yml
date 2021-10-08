@@ -54,6 +54,22 @@ jobs:
                   git commit -m "Add changes"
                   git push
 
+            - name: 'Restore node_modules cache'
+              id: cache-npm
+              uses: actions/cache@v2
+              with:
+                  path: node_modules
+                  key: npm-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      npm-${{ env.cache-name }}-
+                      npm-
+            - name: 'Install npm dependencies'
+              if: steps.cache-npm.outputs.cache-hit != 'true'
+              run: npm ci
+
+            - name: 'Install Salesforce CLI'
+              run: npm install sfdx-cli --global
+
             - name: 'Create and commit new package version'
               run: |
                   git config --local user.email "action@github.com"
