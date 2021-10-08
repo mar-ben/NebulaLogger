@@ -62,6 +62,9 @@ jobs:
               if: steps.cache-npm.outputs.cache-hit != 'true'
               run: npm ci
 
+            - name: 'Install Salesforce CLI'
+              run: npm install sfdx-cli --global
+
             - name: 'Populate Org Auth Files'
               shell: bash
               run: |
@@ -71,12 +74,10 @@ jobs:
 
             - name: 'Authorize Orgs'
               run: |
-                  npx sfdx -- auth:sfdxurl:store --sfdxurlfile ./DEVHUB_SFDX_URL.txt --setalias nebula-logger-packaging --setdefaultdevhubusername
+                  sfdx auth:sfdxurl:store --sfdxurlfile ./DEVHUB_SFDX_URL.txt --setalias nebula-logger-packaging --setdefaultdevhubusername
 
             - name: 'Package Version Number verification'
-              run: |
-                  npx sfdx version
-                  npm run package:version:number:verify
+              run: npm run package:version:number:verify
 
             - name: 'LWC Lint verification'
               run: npm run lint:verify
@@ -142,8 +143,8 @@ jobs:
               if: steps.cache-npm.outputs.cache-hit != 'true'
               run: npm ci
 
-            - name: 'Add Salesforce CLI alias'
-              run: source ./scripts/build/setup-sfdx-alias.sh
+            - name: 'Install Salesforce CLI'
+              run: npm install sfdx-cli --global
 
             - name: 'Populate DevHub Auth Files'
               shell: bash
@@ -158,9 +159,9 @@ jobs:
 
             - name: 'Authorize Dev Hubs'
               run: |
-                  npx sfdx -- auth:sfdxurl:store --sfdxurlfile ./DEVHUB_SFDX_URL.txt --setalias nebula-logger-packaging --setdefaultdevhubusername
-                  npx sfdx -- auth:sfdxurl:store --sfdxurlfile ./NEBULA_CI_DEVHUB_SFDX_URL.txt --setalias nebula-ci-devhub
-                  npx sfdx -- auth:sfdxurl:store --sfdxurlfile ./JONGPIE_DEVHUB_SFDX_URL.txt --setalias jongpie-devhub
+                  sfdx auth:sfdxurl:store --sfdxurlfile ./DEVHUB_SFDX_URL.txt --setalias nebula-logger-packaging --setdefaultdevhubusername
+                  sfdx auth:sfdxurl:store --sfdxurlfile ./NEBULA_CI_DEVHUB_SFDX_URL.txt --setalias nebula-ci-devhub
+                  sfdx auth:sfdxurl:store --sfdxurlfile ./JONGPIE_DEVHUB_SFDX_URL.txt --setalias jongpie-devhub
 
             - name: 'Create Scratch Org with Experience Sites Enabled'
               run: npm run org:create:experience -- -durationdays 1 -devhubs nebula-logger-packaging,nebula-ci-devhub,jongpie-devhub
@@ -219,8 +220,8 @@ jobs:
               if: steps.cache-npm.outputs.cache-hit != 'true'
               run: npm ci
 
-            - name: 'Add Salesforce CLI alias'
-              run: source ./scripts/build/setup-sfdx-alias.sh
+            - name: 'Install Salesforce CLI'
+              run: npm install sfdx-cli --global
 
             - name: 'Populate Org Auth Files'
               shell: bash
@@ -233,8 +234,8 @@ jobs:
 
             - name: 'Authorize Orgs'
               run: |
-                  npx sfdx -- auth:sfdxurl:store --sfdxurlfile ./DEVHUB_SFDX_URL.txt --setalias nebula-logger-packaging --setdefaultdevhubusername
-                  npx sfdx -- auth:sfdxurl:store --sfdxurlfile ./NEBULA_PKG_DEMO_SANDBOX_SFDX_URL.txt --setalias nebula-logger-package-demo
+                  sfdx auth:sfdxurl:store --sfdxurlfile ./DEVHUB_SFDX_URL.txt --setalias nebula-logger-packaging --setdefaultdevhubusername
+                  sfdx auth:sfdxurl:store --sfdxurlfile ./NEBULA_PKG_DEMO_SANDBOX_SFDX_URL.txt --setalias nebula-logger-package-demo
 
             - name: 'Create & Install Package Version'
               run: npx pwsh ./scripts/create-and-install-package-version.ps1 -targetusername nebula-logger-package-demo
