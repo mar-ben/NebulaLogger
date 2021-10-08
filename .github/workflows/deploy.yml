@@ -3,6 +3,9 @@ name: Deployment
 
 on:
     push:
+        branches:
+            - main
+            - 'devops/**'
         paths-ignore:
             - 'content/**'
             - 'docs/**'
@@ -38,7 +41,7 @@ on:
 
 jobs:
     code-quality-tests:
-        name: 'Code Quality Tests'
+        name: 'Run Code Quality Tests'
         runs-on: ubuntu-latest
         environment: Test
         steps:
@@ -72,7 +75,7 @@ jobs:
               run: npm run prettier:verify
 
     lwc-tests:
-        name: 'LWC Tests'
+        name: 'Run LWC Tests'
         needs: [code-quality-tests]
         runs-on: ubuntu-latest
         environment: Test
@@ -104,7 +107,7 @@ jobs:
                   flags: LWC
 
     scratch-org-tests:
-        name: 'Scratch Org Tests'
+        name: 'Run Scratch Org Tests'
         needs: [code-quality-tests]
         runs-on: ubuntu-latest
         environment: Test
@@ -233,6 +236,7 @@ jobs:
               run: |
                   git config --local user.email "action@github.com"
                   git config --local user.name "GitHub Action Bot"
+                  prettier --write ./sfdx-project.json
                   git add ./sfdx-project.json
                   git commit -m "Created new package version"
                   git push
