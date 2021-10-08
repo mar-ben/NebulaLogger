@@ -74,13 +74,13 @@ jobs:
               shell: bash
               run: |
                   echo ${{ env.DEVHUB_SFDX_URL }} > ./DEVHUB_SFDX_URL.txt
-                  rm -f ./DEVHUB_SFDX_URL.txt
               env:
                   DEVHUB_SFDX_URL: ${{ secrets.DEVHUB_SFDX_URL }}
 
             - name: 'Authorize Dev Hubs'
               run: |
                   sfdx auth:sfdxurl:store --sfdxurlfile ./DEVHUB_SFDX_URL.txt --setalias nebula-logger-packaging --setdefaultdevhubusername
+                  rm -f ./DEVHUB_SFDX_URL.txt
 
             - name: 'Create and commit new package version'
               run: |
