@@ -53,3 +53,12 @@ jobs:
                   git add someFile.txt
                   git commit -m "Add changes"
                   git push
+
+            - name: 'Create and commit new package version'
+              run: |
+                  git config --local user.email "action@github.com"
+                  git config --local user.name "GitHub Action Bot"
+                  npm run package:version:create:unlocked
+                  git add ./sfdx-project.json
+                  git commit -m "Created new package version"
+                  git push
