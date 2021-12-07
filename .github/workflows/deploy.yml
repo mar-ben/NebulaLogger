@@ -176,7 +176,7 @@ jobs:
             #       token: ${{ secrets.CODECOV_TOKEN }}
             #       flags: Apex
 
-            - name: 'Delete Scratch Org'
+            - name: 'Delete Base Scratch Org'
               run: npm run org:delete:noprompt
               if: ${{ always() }}
 
@@ -243,7 +243,7 @@ jobs:
                   token: ${{ secrets.CODECOV_TOKEN }}
                   flags: Apex
 
-            - name: 'Delete Scratch Org'
+            - name: 'Delete Experience Cloud Scratch Org'
               run: npm run org:delete:noprompt
               if: ${{ always() }}
 
