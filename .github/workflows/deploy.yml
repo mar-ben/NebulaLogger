@@ -65,7 +65,7 @@ jobs:
             - name: 'Install Salesforce CLI'
               run: npm install sfdx-cli --global
 
-            - name: 'Verify package version number has been updated'
+            - name: 'Verify package version number is updated'
               if: ${{ github.event_name == 'pull_request' }}
               run: |
                   echo ${{ env.DEVHUB_SFDX_URL }} > ./DEVHUB_SFDX_URL.txt
@@ -146,17 +146,13 @@ jobs:
             - name: 'Install Salesforce CLI'
               run: npm install sfdx-cli --global
 
-            - name: 'Authorize Dev Hubs'
+            - name: 'Authorize Dev Hub'
               shell: bash
               run: |
                   echo ${{ env.DEVHUB_SFDX_URL }} > ./DEVHUB_SFDX_URL.txt
                   sfdx auth:sfdxurl:store --sfdxurlfile ./DEVHUB_SFDX_URL.txt --setalias nebula-logger-packaging --setdefaultdevhubusername
-                  sfdx auth:sfdxurl:store --sfdxurlfile ./NEBULA_CI_DEVHUB_SFDX_URL.txt --setalias nebula-ci-devhub
-                  sfdx auth:sfdxurl:store --sfdxurlfile ./JONGPIE_DEVHUB_SFDX_URL.txt --setalias jongpie-devhub
               env:
                   DEVHUB_SFDX_URL: ${{ secrets.DEVHUB_SFDX_URL }}
-                  NEBULA_CI_DEVHUB_SFDX_URL: ${{ secrets.NEBULA_CI_DEVHUB_SFDX_URL }}
-                  JONGPIE_DEVHUB_SFDX_URL: ${{ secrets.JONGPIE_DEVHUB_SFDX_URL }}
 
             - name: 'Create Base Scratch Org'
               run: npm run org:create:base -- -durationdays 1 -devhubs nebula-logger-packaging,nebula-ci-devhub,jongpie-devhub
@@ -210,17 +206,13 @@ jobs:
             - name: 'Install Salesforce CLI'
               run: npm install sfdx-cli --global
 
-            - name: 'Authorize Dev Hubs'
+            - name: 'Authorize Dev Hub'
               shell: bash
               run: |
                   echo ${{ env.DEVHUB_SFDX_URL }} > ./DEVHUB_SFDX_URL.txt
                   sfdx auth:sfdxurl:store --sfdxurlfile ./DEVHUB_SFDX_URL.txt --setalias nebula-logger-packaging --setdefaultdevhubusername
-                  sfdx auth:sfdxurl:store --sfdxurlfile ./NEBULA_CI_DEVHUB_SFDX_URL.txt --setalias nebula-ci-devhub
-                  sfdx auth:sfdxurl:store --sfdxurlfile ./JONGPIE_DEVHUB_SFDX_URL.txt --setalias jongpie-devhub
               env:
                   DEVHUB_SFDX_URL: ${{ secrets.DEVHUB_SFDX_URL }}
-                  NEBULA_CI_DEVHUB_SFDX_URL: ${{ secrets.NEBULA_CI_DEVHUB_SFDX_URL }}
-                  JONGPIE_DEVHUB_SFDX_URL: ${{ secrets.JONGPIE_DEVHUB_SFDX_URL }}
 
             - name: 'Create Scratch Org with Experience Sites Enabled'
               run: npm run org:create:experience-cloud -- -durationdays 1 -devhubs nebula-logger-packaging,nebula-ci-devhub,jongpie-devhub
