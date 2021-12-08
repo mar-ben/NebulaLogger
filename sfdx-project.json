@@ -7,11 +7,14 @@
             "package": "Nebula Logger - Unlocked Package",
             "path": "nebula-logger",
             "default": false,
-            "definitionFile": "config/project-scratch-def-with-experience-cloud.json",
+            "definitionFile": "config/scratch-orgs/experience-cloud-scratch-def.json",
             "versionNumber": "4.6.14.0",
             "versionName": "New Logger Settings Component",
-            "versionDescription": "Adds a new loggerSettings lwc for managing LoggerSettings__c records",
-            "releaseNotesUrl": "https://github.com/jongpie/NebulaLogger/releases"
+            "versionDescription": "Adds a new loggerSettings lwc & tab for managing LoggerSettings__c records",
+            "releaseNotesUrl": "https://github.com/jongpie/NebulaLogger/releases",
+            "unpackagedMetadata": {
+                "path": "extra-tests"
+            }
         },
         {
             "package": "Nebula Logger Plugin - Logger Admin Dashboard",
