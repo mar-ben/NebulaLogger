@@ -1,35 +1,35 @@
 ## Functions
 
 <dl>
-<dt><a href="#getUserSettings">getUserSettings()</a> ΓçÆ</dt>
+<dt><a href="#getUserSettings">getUserSettings()</a></dt>
 <dd><p>Returns the current user&#39;s instance of <code>LoggerSettings__c</code></p>
 </dd>
 <dt><a href="#setScenario">setScenario(scenario)</a></dt>
 <dd><p>Sets the scenario name for the current transaction - this is stored in <code>LogEntryEvent__e.Scenario__c</code>
              and <code>Log__c.Scenario__c</code>, and can be used to filter &amp; group logs</p>
 </dd>
-<dt><a href="#error">error()</a> ΓçÆ</dt>
+<dt><a href="#error">error()</a></dt>
 <dd><p>Creates a new log entry with logging level == <code>LoggingLevel.ERROR</code></p>
 </dd>
-<dt><a href="#warn">warn()</a> ΓçÆ</dt>
+<dt><a href="#warn">warn()</a></dt>
 <dd><p>Creates a new log entry with logging level == <code>LoggingLevel.WARN</code></p>
 </dd>
-<dt><a href="#info">info()</a> ΓçÆ</dt>
+<dt><a href="#info">info()</a></dt>
 <dd><p>Creates a new log entry with logging level == <code>LoggingLevel.INFO</code></p>
 </dd>
-<dt><a href="#debug">debug()</a> ΓçÆ</dt>
+<dt><a href="#debug">debug()</a></dt>
 <dd><p>Creates a new log entry with logging level == <code>LoggingLevel.DEBUG</code></p>
 </dd>
-<dt><a href="#fine">fine()</a> ΓçÆ</dt>
+<dt><a href="#fine">fine()</a></dt>
 <dd><p>Creates a new log entry with logging level == <code>LoggingLevel.FINE</code></p>
 </dd>
-<dt><a href="#finer">finer()</a> ΓçÆ</dt>
+<dt><a href="#finer">finer()</a></dt>
 <dd><p>Creates a new log entry with logging level == <code>LoggingLevel.FINER</code></p>
 </dd>
-<dt><a href="#finest">finest()</a> ΓçÆ</dt>
+<dt><a href="#finest">finest()</a></dt>
 <dd><p>Creates a new log entry with logging level == <code>LoggingLevel.FINEST</code></p>
 </dd>
-<dt><a href="#getBufferSize">getBufferSize()</a> ΓçÆ</dt>
+<dt><a href="#getBufferSize">getBufferSize()</a></dt>
 <dd><p>Returns the number of entries that have been generated but not yet saved</p>
 </dd>
 <dt><a href="#flushBuffer">flushBuffer()</a></dt>
@@ -43,7 +43,7 @@
 
 <a name="getUserSettings"></a>
 
-## getUserSettings() ΓçÆ
+## getUserSettings()
 
 Returns the current user's instance of `LoggerSettings__c`
 
@@ -64,7 +64,7 @@ and `Log__c.Scenario__c`, and can be used to filter & group logs
 
 <a name="error"></a>
 
-## error() ΓçÆ
+## error()
 
 Creates a new log entry with logging level == `LoggingLevel.ERROR`
 
@@ -72,7 +72,7 @@ Creates a new log entry with logging level == `LoggingLevel.ERROR`
 **Returns**: The new entry's instance of `LogEntryEventBuilder`, useful for chaining methods  
 <a name="warn"></a>
 
-## warn() ΓçÆ
+## warn()
 
 Creates a new log entry with logging level == `LoggingLevel.WARN`
 
@@ -80,7 +80,7 @@ Creates a new log entry with logging level == `LoggingLevel.WARN`
 **Returns**: The new entry's instance of `LogEntryEventBuilder`, useful for chaining methods  
 <a name="info"></a>
 
-## info() ΓçÆ
+## info()
 
 Creates a new log entry with logging level == `LoggingLevel.INFO`
 
@@ -88,7 +88,7 @@ Creates a new log entry with logging level == `LoggingLevel.INFO`
 **Returns**: The new entry's instance of `LogEntryEventBuilder`, useful for chaining methods  
 <a name="debug"></a>
 
-## debug() ΓçÆ
+## debug()
 
 Creates a new log entry with logging level == `LoggingLevel.DEBUG`
 
@@ -96,7 +96,7 @@ Creates a new log entry with logging level == `LoggingLevel.DEBUG`
 **Returns**: The new entry's instance of `LogEntryEventBuilder`, useful for chaining methods  
 <a name="fine"></a>
 
-## fine() ΓçÆ
+## fine()
 
 Creates a new log entry with logging level == `LoggingLevel.FINE`
 
@@ -104,7 +104,7 @@ Creates a new log entry with logging level == `LoggingLevel.FINE`
 **Returns**: The new entry's instance of `LogEntryEventBuilder`, useful for chaining methods  
 <a name="finer"></a>
 
-## finer() ΓçÆ
+## finer()
 
 Creates a new log entry with logging level == `LoggingLevel.FINER`
 
@@ -112,7 +112,7 @@ Creates a new log entry with logging level == `LoggingLevel.FINER`
 **Returns**: The new entry's instance of `LogEntryEventBuilder`, useful for chaining methods  
 <a name="finest"></a>
 
-## finest() ΓçÆ
+## finest()
 
 Creates a new log entry with logging level == `LoggingLevel.FINEST`
 
@@ -120,7 +120,7 @@ Creates a new log entry with logging level == `LoggingLevel.FINEST`
 **Returns**: The new entry's instance of `LogEntryEventBuilder`, useful for chaining methods  
 <a name="getBufferSize"></a>
 
-## getBufferSize() ΓçÆ
+## getBufferSize()
 
 Returns the number of entries that have been generated but not yet saved
 

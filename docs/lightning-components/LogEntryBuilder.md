@@ -6,12 +6,12 @@
 
 -   [LogEntryBuilder](#LogEntryBuilder)
     -   [new LogEntryBuilder(loggingLevel, shouldSave, isConsoleLoggingEnabled)](#new_LogEntryBuilder_new)
-    -   [.setMessage(message)](#LogEntryBuilder+setMessage) ΓçÆ
-    -   [.setRecordId(recordId)](#LogEntryBuilder+setRecordId) ΓçÆ
-    -   [.setRecord(record)](#LogEntryBuilder+setRecord) ΓçÆ
-    -   [.setError(apexException)](#LogEntryBuilder+setError) ΓçÆ
-    -   [.addTag(tag)](#LogEntryBuilder+addTag) ΓçÆ
-    -   [.addTags(tags)](#LogEntryBuilder+addTags) ΓçÆ
+    -   [.setMessage(message)](#LogEntryBuilder+setMessage)
+    -   [.setRecordId(recordId)](#LogEntryBuilder+setRecordId)
+    -   [.setRecord(record)](#LogEntryBuilder+setRecord)
+    -   [.setError(apexException)](#LogEntryBuilder+setError)
+    -   [.addTag(tag)](#LogEntryBuilder+addTag)
+    -   [.addTags(tags)](#LogEntryBuilder+addTags)
 
 <a name="new_LogEntryBuilder_new"></a>
 
@@ -28,7 +28,7 @@ This class is the JavaScript-equivalent of the Apex class `LogEntryEventBuilder`
 
 <a name="LogEntryBuilder+setMessage"></a>
 
-### logEntryBuilder.setMessage(message) ΓçÆ
+### logEntryBuilder.setMessage(message)
 
 Sets the log entry event's message field
 
@@ -41,7 +41,7 @@ Sets the log entry event's message field
 
 <a name="LogEntryBuilder+setRecordId"></a>
 
-### logEntryBuilder.setRecordId(recordId) ΓçÆ
+### logEntryBuilder.setRecordId(recordId)
 
 Sets the log entry event's record fields
 
@@ -54,7 +54,7 @@ Sets the log entry event's record fields
 
 <a name="LogEntryBuilder+setRecord"></a>
 
-### logEntryBuilder.setRecord(record) ΓçÆ
+### logEntryBuilder.setRecord(record)
 
 Sets the log entry event's record fields
 
@@ -67,7 +67,7 @@ Sets the log entry event's record fields
 
 <a name="LogEntryBuilder+setError"></a>
 
-### logEntryBuilder.setError(apexException) ΓçÆ
+### logEntryBuilder.setError(apexException)
 
 Sets the log entry event's exception fields
 
@@ -80,7 +80,7 @@ Sets the log entry event's exception fields
 
 <a name="LogEntryBuilder+addTag"></a>
 
-### logEntryBuilder.addTag(tag) ΓçÆ
+### logEntryBuilder.addTag(tag)
 
 Appends the tag to the existing list of tags
 
@@ -93,7 +93,7 @@ Appends the tag to the existing list of tags
 
 <a name="LogEntryBuilder+addTags"></a>
 
-### logEntryBuilder.addTags(tags) ΓçÆ
+### logEntryBuilder.addTags(tags)
 
 Appends the tag to the existing list of tags
 

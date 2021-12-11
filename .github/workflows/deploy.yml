@@ -62,24 +62,24 @@ jobs:
               if: steps.cache-npm.outputs.cache-hit != 'true'
               run: npm ci
 
-            - name: 'Install Salesforce CLI'
-              run: npm install sfdx-cli --global
+            # - name: 'Install Salesforce CLI'
+            #   run: npm install sfdx-cli --global
 
-            - name: 'Verify package version number is updated'
-              if: ${{ github.event_name == 'pull_request' }}
-              run: |
-                  echo ${{ env.DEVHUB_SFDX_URL }} > ./DEVHUB_SFDX_URL.txt
-                  sfdx auth:sfdxurl:store --sfdxurlfile ./DEVHUB_SFDX_URL.txt --setalias nebula-logger-packaging --setdefaultdevhubusername
-                  rm ./DEVHUB_SFDX_URL.txt
-                  npm run package:version:number:verify
-              env:
-                  DEVHUB_SFDX_URL: ${{ secrets.DEVHUB_SFDX_URL }}
+            # - name: 'Verify package version number is updated'
+            #   if: ${{ github.event_name == 'pull_request' }}
+            #   run: |
+            #       echo ${{ env.DEVHUB_SFDX_URL }} > ./DEVHUB_SFDX_URL.txt
+            #       sfdx auth:sfdxurl:store --sfdxurlfile ./DEVHUB_SFDX_URL.txt --setalias nebula-logger-packaging --setdefaultdevhubusername
+            #       rm ./DEVHUB_SFDX_URL.txt
+            #       npm run package:version:number:verify
+            #   env:
+            #       DEVHUB_SFDX_URL: ${{ secrets.DEVHUB_SFDX_URL }}
 
-            - name: 'Verify LWC with ESLint'
-              run: npm run lint:verify
+            # - name: 'Verify LWC with ESLint'
+            #   run: npm run lint:verify:lwc
 
-            - name: 'Verify Apex with SFDX Scanner'
-              run: npm run scan
+            # - name: 'Verify Apex with SFDX Scanner'
+            #   run: npm run lint:verify:apex
 
             - name: 'Verify docs are updated'
               run: npm run docs:verify
