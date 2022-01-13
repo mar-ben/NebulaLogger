@@ -29,9 +29,11 @@ public without sharing class LoggerSettingsController {
     public static LoggerSettingsPicklistOptions getPicklistOptions() {
         LoggerSettingsPicklistOptions loggerSettingsPicklistOptions = new LoggerSettingsPicklistOptions();
         loggerSettingsPicklistOptions.loggingLevelOptions = getLoggingLevelOptions();
+        loggerSettingsPicklistOptions.publishingLocationOptions = getPublishingLocationOptions();
         loggerSettingsPicklistOptions.saveMethodOptions = getSaveMethodOptions();
         loggerSettingsPicklistOptions.setupOwnerTypeOptions = getSetupOwnerTypeOptions();
         loggerSettingsPicklistOptions.shareAccessLevelOptions = getShareAccessLevelOptions();
+        loggerSettingsPicklistOptions.storageLocationOptions = getStorageLocationOptions();
         return loggerSettingsPicklistOptions;
     }
 
@@ -187,6 +189,23 @@ public without sharing class LoggerSettingsController {
         return picklistOptions;
     }
 
+    private static List<PicklistOption> getPublishingLocationOptions() {
+        List<PicklistOption> picklistOptions = initializePicklistOptions();
+
+        PicklistOption platformEventOption = new PicklistOption();
+        platformEventOption.label = 'LogEntryEvent__e Platform Event';
+        platformEventOption.value = 'PLATFORM_EVENT';
+        picklistOptions.add(platformEventOption);
+
+        PicklistOption bigObjectOption = new PicklistOption();
+        bigObjectOption.label = 'LogEntryArchive__b Big Object';
+        bigObjectOption.value = 'BIG_OBJECT';
+        // picklistOptions.add(bigObjectOption); // TODO - uncomment when BigObject is part of core
+
+
+        return picklistOptions;
+    }
+
     private static List<PicklistOption> getSaveMethodOptions() {
         List<PicklistOption> picklistOptions = initializePicklistOptions();
         for (Logger.SaveMethod saveMethod : Logger.SaveMethod.values()) {
@@ -230,6 +249,22 @@ public without sharing class LoggerSettingsController {
         return picklistOptions;
     }
 
+    private static List<PicklistOption> getStorageLocationOptions() {
+        List<PicklistOption> picklistOptions = initializePicklistOptions();
+
+        PicklistOption bigObjectOption = new PicklistOption();
+        bigObjectOption.label = 'LogEntryArchive__b Big Object';
+        bigObjectOption.value = 'BIG_OBJECT';
+        // picklistOptions.add(bigObjectOption); // TODO - uncomment when BigObject is part of core
+
+        PicklistOption customObjectsOption = new PicklistOption();
+        customObjectsOption.label = 'Log__c & LogEntry__c Custom Objects';
+        customObjectsOption.value = 'CUSTOM_OBJECTS';
+        picklistOptions.add(customObjectsOption);
+
+        return picklistOptions;
+    }
+
     private static List<PicklistOption> initializePicklistOptions() {
         PicklistOption emptyPicklistOption = new PicklistOption();
         emptyPicklistOption.label = '--None--';
@@ -256,30 +291,14 @@ public without sharing class LoggerSettingsController {
     }
 
     private static List<LoggerSettings__c> queryLoggerSettings() {
-        return [
-            SELECT
-                CreatedBy.Username,
-                CreatedById,
-                CreatedDate,
-                DefaultLogShareAccessLevel__c,
-                DefaultNumberOfDaysToRetainLogs__c,
-                DefaultSaveMethod__c,
-                Id,
-                IsAnonymousModeEnabled__c,
-                IsApexSystemDebugLoggingEnabled__c,
-                IsJavaScriptConsoleLoggingEnabled__c,
-                IsDataMaskingEnabled__c,
-                IsEnabled__c,
-                LastModifiedBy.Username,
-                LastModifiedById,
-                LastModifiedDate,
-                LoggingLevel__c,
-                SetupOwner.Name,
-                SetupOwner.Type,
-                SetupOwnerId,
-                StripInaccessibleRecordFields__c
-            FROM LoggerSettings__c
-        ];
+        // Custom hierarchy settings don't have a `getAll()` method,
+        // and some parent-level fields need to be included,
+        // so dynamically query the object to ensure all fields are returned
+        List<String> fieldNames = new List<String>{ 'CreatedBy.Username', 'LastModifiedBy.Username', 'SetupOwner.Name', 'SetupOwner.Type' };
+        fieldNames.addAll(Schema.LoggerSettings__c.SObjectType.getDescribe().fields.getMap().keySet());
+
+        String query = 'SELECT ' + String.join(fieldNames, ', ') + ' FROM ' + Schema.LoggerSettings__c.SObjectType;
+        return (List<LoggerSettings__c>) Database.query(query);
     }
 
     private static Map<Id, String> querySetupOwnerNames(List<Id> setupOwnerIds) {
@@ -300,11 +319,15 @@ public without sharing class LoggerSettingsController {
         @AuraEnabled
         public List<PicklistOption> loggingLevelOptions;
         @AuraEnabled
+        public List<PicklistOption> publishingLocationOptions;
+        @AuraEnabled
         public List<PicklistOption> saveMethodOptions;
         @AuraEnabled
         public List<PicklistOption> setupOwnerTypeOptions;
         @AuraEnabled
         public List<PicklistOption> shareAccessLevelOptions;
+        @AuraEnabled
+        public List<PicklistOption> storageLocationOptions;
     }
 
     /**

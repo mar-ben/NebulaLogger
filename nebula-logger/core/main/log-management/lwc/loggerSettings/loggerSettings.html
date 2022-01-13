@@ -217,7 +217,54 @@
                         </lightning-layout>
                     </div>
 
+                    <!-- Publishing Settings -->
+                    <div class="slds-section slds-is-open">
+                        <h3 class="slds-section__title slds-theme_shade">
+                            <span class="slds-truncate slds-p-horizontal_small" title="Publishing Settings">Publishing Settings</span>
+                        </h3>
+                        <lightning-layout>
+                            <lightning-layout-item size="6">
+                                <lightning-combobox
+                                    data-id="PublishLocation__c"
+                                    field-level-help={loggerSettingsFields.PublishLocation__c.inlineHelpText}
+                                    label="Publish Location"
+                                    onchange={handleFieldChange}
+                                    options={loggerSettingsPicklistOptions.publishingLocationOptions}
+                                    read-only={isReadOnlyMode}
+                                    value={currentRecord.PublishLocation__c}
+                                    variant="label-stacked"
+                                ></lightning-combobox>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6">
+                                <!-- TODO - possibly only show this combox if PublishLocation__c == 'PlatformEvent'? -->
+                                <lightning-combobox
+                                    data-id="DefaultSaveMethod__c"
+                                    field-level-help={loggerSettingsFields.DefaultSaveMethod__c.inlineHelpText}
+                                    label={loggerSettingsFields.DefaultSaveMethod__c.label}
+                                    onchange={handleFieldChange}
+                                    options={loggerSettingsPicklistOptions.saveMethodOptions}
+                                    read-only={isReadOnlyMode}
+                                    required
+                                    value={currentRecord.DefaultSaveMethod__c}
+                                    variant="label-stacked"
+                                ></lightning-combobox>
+                                <!-- TODO - only show this combox if PublishLocation__c == 'PlatformEvent' -->
+                                <lightning-combobox
+                                    data-id="StorageLocation__c"
+                                    field-level-help={loggerSettingsFields.StorageLocation__c.inlineHelpText}
+                                    label="Storage Location"
+                                    onchange={handleFieldChange}
+                                    options={loggerSettingsPicklistOptions.storageLocationOptions}
+                                    read-only={isReadOnlyMode}
+                                    value={currentRecord.StorageLocation__c}
+                                    variant="label-stacked"
+                                ></lightning-combobox>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+
                     <!-- Log Management Settings -->
+                    <!-- TODO - only display this when StorageLocation__c == 'CUSTOM_OBJECTS' -->
                     <div class="slds-section slds-is-open">
                         <h3 class="slds-section__title slds-theme_shade">
                             <span class="slds-truncate slds-p-horizontal_small" title="Log Management Settings">Log Management Settings</span>
@@ -257,19 +304,6 @@
                         </h3>
                         <lightning-layout>
                             <lightning-layout-item size="6">
-                                <lightning-combobox
-                                    data-id="DefaultSaveMethod__c"
-                                    field-level-help={loggerSettingsFields.DefaultSaveMethod__c.inlineHelpText}
-                                    label={loggerSettingsFields.DefaultSaveMethod__c.label}
-                                    onchange={handleFieldChange}
-                                    options={loggerSettingsPicklistOptions.saveMethodOptions}
-                                    read-only={isReadOnlyMode}
-                                    required
-                                    value={currentRecord.DefaultSaveMethod__c}
-                                    variant="label-stacked"
-                                ></lightning-combobox>
-                            </lightning-layout-item>
-                            <lightning-layout-item size="6">
                                 <lightning-input
                                     checked={currentRecord.IsApexSystemDebugLoggingEnabled__c}
                                     data-id="IsApexSystemDebugLoggingEnabled__c"
@@ -280,6 +314,8 @@
                                     type="checkbox"
                                     variant="label-stacked"
                                 ></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6">
                                 <lightning-input
                                     checked={currentRecord.IsJavaScriptConsoleLoggingEnabled__c}
                                     data-id="IsJavaScriptConsoleLoggingEnabled__c"

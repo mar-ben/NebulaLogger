@@ -7,9 +7,9 @@
             "package": "Nebula Logger - Core",
             "path": "./nebula-logger/core",
             "definitionFile": "./config/scratch-orgs/experience-cloud-scratch-def.json",
-            "versionNumber": "4.6.16.0",
-            "versionName": "UI Cleanup",
-            "versionDescription": "Replaced the old aura cmp logJSONViewer with a new lwc quickaction, cleaned up flexipages, fixed an issue with some standard buttons being excluded",
+            "versionNumber": "4.6.17.0",
+            "versionName": "Publish and Storage Location Settings",
+            "versionDescription": "Adds new settings fields to control if platform events and/or custom objects are used",
             "releaseNotesUrl": "https://github.com/jongpie/NebulaLogger/releases",
             "default": true
         },

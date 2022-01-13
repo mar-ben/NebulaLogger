@@ -295,8 +295,9 @@ export default class LoggerSettings extends LightningElement {
         const tableColumnNames = [
             'IsEnabled__c',
             'LoggingLevel__c',
-            'IsDataMaskingEnabled__c',
+            'PublishLocation__c',
             'DefaultSaveMethod__c',
+            'StorageLocation__c',
             'DefaultNumberOfDaysToRetainLogs__c',
             'DefaultLogShareAccessLevel__c'
         ];
