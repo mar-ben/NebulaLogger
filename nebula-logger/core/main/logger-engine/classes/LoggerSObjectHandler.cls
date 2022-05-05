@@ -7,7 +7,7 @@
  * @group Logger Engine
  * @description Abstract class used by trigger handlers for shared logic
  */
-@SuppressWarnings('PMD.ApexCRUDViolation, PMD.CyclomaticComplexity, PMD.EmptyStatementBlock, PMD.FieldDeclarationsShouldBeAtStart')
+@SuppressWarnings('PMD.CyclomaticComplexity, PMD.EmptyStatementBlock, PMD.FieldDeclarationsShouldBeAtStart')
 public without sharing abstract class LoggerSObjectHandler {
     private static Boolean isEnabled = true;
     private static final Map<Schema.SObjectType, List<LoggerSObjectHandler>> SOBJECT_TYPE_TO_EXECUTED_HANDLERS = new Map<Schema.SObjectType, List<LoggerSObjectHandler>>();
@@ -249,11 +249,7 @@ public without sharing abstract class LoggerSObjectHandler {
 
     private static Map<Schema.SObjectType, LoggerSObjectHandler__mdt> queryHandlerConfigurations() {
         Map<Schema.SObjectType, LoggerSObjectHandler__mdt> sobjectTypeToHandlerConfiguration = new Map<Schema.SObjectType, LoggerSObjectHandler__mdt>();
-        for (LoggerSObjectHandler__mdt handlerConfiguration : [
-            SELECT IsEnabled__c, SObjectHandlerApexClass__c, SObjectType__r.QualifiedApiName
-            FROM LoggerSObjectHandler__mdt
-            WHERE IsEnabled__c = TRUE
-        ]) {
+        for (LoggerSObjectHandler__mdt handlerConfiguration : LoggerEngineDataSelector.queryEnabledLoggerSObjectHandlers()) {
             handlerConfiguration.SObjectType__c = handlerConfiguration.SObjectType__r.QualifiedApiName;
             Schema.SObjectType sobjectType = ((SObject) Type.forName(handlerConfiguration.SObjectType__c).newInstance()).getSObjectType();
             sobjectTypeToHandlerConfiguration.put(sobjectType, handlerConfiguration);
