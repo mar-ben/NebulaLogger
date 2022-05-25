@@ -19,6 +19,7 @@ global with sharing class Logger {
     private static final Map<String, LogScenarioRule__mdt> MOCK_SCENARIO_TO_SCENARIO_RULE = new Map<String, LogScenarioRule__mdt>();
     private static final String TRANSACTION_ID = new Uuid().getValue();
     private static final Quiddity TRANSACTION_QUIDDITY = setTransactionQuiddity();
+    private static final String USER_SESSION_ID = UserInfo.getSessionId();
 
     private static Integer currentTransactionEntryNumber = 1;
     @TestVisible
@@ -2612,7 +2613,7 @@ global with sharing class Logger {
             when REST {
                 // If the user doesn't have a session ID (e.g., site guest user), the REST API call will fail
                 // To avoid that, use the EventBus instead (even though REST was specified)
-                if (String.isBlank(UserInfo.getSessionId())) {
+                if (String.isBlank(USER_SESSION_ID) == true) {
                     saveLog(Logger.SaveMethod.EVENT_BUS);
                 } else {
                     new RestApiSaver().insertRecords(logEntryEvents);
@@ -2703,12 +2704,14 @@ global with sharing class Logger {
         // from an Auth Provider class (that implements Auth.RegistrationHandler). As a workaround,
         // skip calling System.Request.getCurrent() if there is no user session.
         // TODO: see if there is a better approach for this long term (or hopefully Salesforce fixes the gack error)
-        if (String.isNotBlank(UserInfo.getSessionId())) {
+        if (String.isNotBlank(USER_SESSION_ID)) {
             return System.Request.getCurrent().getQuiddity();
         } else {
             return null;
         }
     }
+
+    // TODO add new field & method setTransactionRequestId(), since the transaction ID is now always a UUID (again)
 
     private static SaveMethod getSaveMethod(String saveMethodName) {
         try {
@@ -2799,7 +2802,7 @@ global with sharing class Logger {
         public void insertRecords(List<SObject> records) {
             HttpRequest request = new HttpRequest();
             request.setEndpoint(baseURL + compositeEndpoint);
-            request.setHeader('Authorization', 'Bearer ' + UserInfo.getSessionId());
+            request.setHeader('Authorization', 'Bearer ' + USER_SESSION_ID);
             request.setHeader('Content-Type', 'application/json; charset=utf-8');
             request.setMethod('POST');
 
