@@ -35,6 +35,12 @@ export default class LogEntryEventStream extends LightningElement {
 
             this.createSubscription();
         });
+        const style = document.createElement('style');
+        style.innerText = `.slds-template_default {
+    padding: 0px;
+}`;
+
+        this.template.querySelector('main-container').appendChild(style);
     }
 
     disconnectedCallback() {

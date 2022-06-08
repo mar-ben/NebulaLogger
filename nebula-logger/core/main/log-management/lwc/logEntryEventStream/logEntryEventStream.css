@@ -53,3 +53,11 @@
     margin-right: 8px;
     padding: 4px;
 }
+
+.main-container {
+    display: flex;
+    height: 100%;
+}
+.slds-template_default {
+    padding: 0px;
+}
