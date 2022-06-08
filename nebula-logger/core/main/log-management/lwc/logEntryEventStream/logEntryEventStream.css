@@ -54,7 +54,7 @@
     padding: 4px;
 }
 
-.main-container {
+.main-container {`
     display: flex;
     height: 100%;
 }
