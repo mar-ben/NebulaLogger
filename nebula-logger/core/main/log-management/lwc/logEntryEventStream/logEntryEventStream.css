@@ -4,11 +4,17 @@
     left: 0;
     height: 100%;
     width: 100%;
-    z-index: 999;
+    z-index: 9999;
+    padding: 0;
+    margin: 0;
 }
 
 .expanded .event-stream {
-    height: 100vh;
+    /*height: 100vh;*/
+    height: calc(100% -70px);
+}
+.event-stream-card {
+    height: 100%;
 }
 
 .event-stream {
@@ -17,8 +23,9 @@
     font-family: 'Lucida Console', 'Courier New', monospace;
     text-indent: -32px;
     padding-left: 32px;
-    height: calc(100vh - 300px);
-    margin-right: 8px;
+    /*height: calc(100vh - 300px);
+    margin-right: 8px;*/
+    height: 100%;
     overflow-x: hidden;
     overflow-y: scroll;
 
@@ -54,10 +61,11 @@
     padding: 4px;
 }
 
-.main-container {`
+.main-container {
     display: flex;
     height: 100%;
 }
-.slds-template_default {
-    padding: 0px;
+
+.card-body {
+    height: calc(100% - 70px);
 }

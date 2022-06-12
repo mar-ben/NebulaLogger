@@ -12,6 +12,7 @@ export default class LogEntryEventStream extends LightningElement {
     logEntryEvents = [];
     isExpanded = false;
     isStreamEnabled = true;
+    isStreamSettingExpanded = true;
 
     // Filters
     loggedByFilter;
@@ -121,18 +122,33 @@ export default class LogEntryEventStream extends LightningElement {
         this.unfilteredEvents = [];
     }
 
-    // onToggleExpand() {
-    //     let consoleBlock = this.template.querySelector('[data-id="event-stream-console"]');
-    //     consoleBlock.className = this.isExpanded ? '' : 'expanded';
-    //     this.isExpanded = !this.isExpanded;
-    // }
+    onToggleExpand() {
+        let consoleBlock = this.template.querySelector('[data-id="event-stream-console"]');
+        consoleBlock.className = this.isExpanded ? 'slds-card slds-grow slds-m-left_medium' : 'slds-card slds-grow slds-m-left_medium expanded';
+        this.isExpanded = !this.isExpanded;
+    }
 
     onToggleStream() {
         this.isStreamEnabled = !this.isStreamEnabled;
         // eslint-disable-next-line
         this.isStreamEnabled ? this.createSubscription() : this.cancelSubscription();
     }
-
+    onToggleStreamSettings() {
+        this.isStreamSettingExpanded = !this.isStreamSettingExpanded;
+        const splitViewContainerElement = this.template.querySelector('[data-id="split-view-container"');
+        const splitViewToggleButtonElement = this.template.querySelector('[data-id="split-view-button"');
+        if (this.isStreamSettingExpanded) {
+            splitViewContainerElement.classList.add('slds-is-open');
+            splitViewContainerElement.classList.remove('slds-is-closed');
+            splitViewToggleButtonElement.classList.add('slds-is-open');
+            splitViewToggleButtonElement.classList.remove('slds-is-closed');
+        } else {
+            splitViewContainerElement.classList.add('slds-is-closed');
+            splitViewContainerElement.classList.remove('slds-is-open');
+            splitViewToggleButtonElement.classList.add('slds-is-closed');
+            splitViewToggleButtonElement.classList.remove('slds-is-open');
+        }
+    }
     // Private functions
     _filterEvents() {
         while (this.unfilteredEvents.length > this.maxEvents) {
