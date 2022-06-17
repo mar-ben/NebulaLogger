@@ -4,13 +4,13 @@
  **********************************************************************************************-->
 
 <template>
-    <div class="main-container slds-p-around_none">
-        <div style="height: 100%; position: relative">
+    <div class="main-container height-full slds-p-around_none">
+        <div class="slds-is-relative height-full">
             <button
                 data-id="split-view-button"
                 class="slds-button slds-button_icon slds-button_icon slds-split-view__toggle-button slds-is-open"
                 title="Close Split View"
-                onclick={onToggleStreamSettings}
+                onclick={onToggleSplitView}
             >
                 <lightning-icon class="slds-button__icon" icon-name="utility:left" size="xx-small" alternative-text="Event" title="Event"></lightning-icon>
                 <span class="slds-assistive-text">Close Split View</span>
@@ -140,66 +140,103 @@
                 </lightning-card>
             </div> -->
         </div>
+        <div class="slds-grow slds-m-horizontal_medium event-stream-container">
+            <article style="height: 100%" data-id="event-stream-console" class="slds-card">
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <h2 class="slds-card__header-title">
+                                <span>{title}</span>
+                            </h2>
+                        </div>
+                        <div class="slds-no-flex">
+                            <lightning-button-group>
+                                <lightning-button-stateful
+                                    data-id="toggle-stream"
+                                    icon-name-when-hover="utility:close"
+                                    icon-name-when-off="utility:pause_alt"
+                                    icon-name-when-on="utility:play"
+                                    label-when-hover="  Pause  "
+                                    label-when-off="Paused"
+                                    label-when-on="Streaming"
+                                    onclick={onToggleStream}
+                                    selected={isStreamEnabled}
+                                    variant={streamButtonVariant}
+                                >
+                                </lightning-button-stateful>
+                                <lightning-button
+                                    data-id="clear"
+                                    label="Clear"
+                                    icon-name="utility:delete"
+                                    name="clear"
+                                    onclick={onClear}
+                                    variant="destructive"
+                                ></lightning-button>
+                                <lightning-button-stateful
+                                    data-id="expand-toggle"
+                                    icon-name-when-off="utility:expand"
+                                    icon-name-when-on="utility:contract"
+                                    label-when-off="Expand"
+                                    label-when-on="Contract"
+                                    onclick={onToggleExpand}
+                                    selected={isExpanded}
+                                    variant="brand"
+                                >
+                                </lightning-button-stateful>
+                            </lightning-button-group>
+                        </div>
+                        <lightning-button-menu
+                            class="slds-p-left_x-small"
+                            icon-name={selectViewMenuIcon}
+                            alternative-text="view as"
+                            onselect={onSelectView}
+                            variant="base"
+                            menu-alignment="auto"
+                        >
+                            <template for:each={selectViewMenuOptions} for:item="action">
+                                <lightning-menu-item
+                                    icon-name={action.iconName}
+                                    id={action.id}
+                                    label={action.label}
+                                    value={action.value}
+                                    key={action.label}
+                                    checked={action.checked}
+                                >
+                                </lightning-menu-item
+                            ></template>
+                        </lightning-button-menu>
+                    </header>
+                </div>
+                <div class="slds-p-around_small card-body">
+                    <template if:true={isConsoleViewEnabled}>
+                        <div class="slds-p-horizontal_medium event-stream">
+                            <template for:each={logEntryEvents} for:item="logEntryEvent">
+                                <div key={logEntryEvent.key} class="event-stream-entry">
+                                    <span key={logEntryEvent.key} class="timestamp">{logEntryEvent.Timestamp__c}</span>
+                                    <span key={logEntryEvent.key} class="logged-by">{logEntryEvent.LoggedByUsername__c} - {logEntryEvent.key}</span>
+                                    <span key={logEntryEvent.key} class="origin">{logEntryEvent.OriginType__c}.{logEntryEvent.OriginLocation__c} </span>
+                                    <span key={logEntryEvent.key} class="logging-level">{logEntryEvent.LoggingLevel__c}</span>
+                                    <span key={logEntryEvent.key} class="message">{logEntryEvent.Message__c}</span>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
 
-        <article data-id="event-stream-console" class="slds-card slds-grow slds-m-left_medium">
-            <div class="slds-card__header slds-grid">
-                <header class="slds-media slds-media_center slds-has-flexi-truncate">
-                    <div class="slds-media__body">
-                        <h2 class="slds-card__header-title">
-                            <span>{title}</span>
-                        </h2>
-                    </div>
-                    <div class="slds-no-flex">
-                        <lightning-button-group>
-                            <lightning-button-stateful
-                                data-id="toggle-stream"
-                                icon-name-when-hover="utility:close"
-                                icon-name-when-off="utility:pause_alt"
-                                icon-name-when-on="utility:play"
-                                label-when-hover="  Pause  "
-                                label-when-off="Paused"
-                                label-when-on="Streaming"
-                                onclick={onToggleStream}
-                                selected={isStreamEnabled}
-                                variant={streamButtonVariant}
+                    <template if:false={isConsoleViewEnabled}>
+                        <div class="slds-box slds-p-around_none slds-scrollable--y height-full">
+                            <lightning-datatable
+                                class="height-full"
+                                hide-checkbox-column
+                                show-row-number-column
+                                key-field="id"
+                                data={logEntryEvents}
+                                columns={dataTableColumns}
                             >
-                            </lightning-button-stateful>
-                            <lightning-button
-                                data-id="clear"
-                                label="Clear"
-                                icon-name="utility:delete"
-                                name="clear"
-                                onclick={onClear}
-                                variant="destructive"
-                            ></lightning-button>
-                            <lightning-button-stateful
-                                data-id="expand-toggle"
-                                icon-name-when-off="utility:expand"
-                                icon-name-when-on="utility:contract"
-                                label-when-off="Expand"
-                                label-when-on="Contract"
-                                onclick={onToggleExpand}
-                                selected={isExpanded}
-                                variant="brand"
-                            >
-                            </lightning-button-stateful>
-                        </lightning-button-group>
-                    </div>
-                </header>
-            </div>
-            <div class="slds-p-around_small card-body">
-                <div class="slds-p-horizontal_medium event-stream">
-                    <template for:each={logEntryEvents} for:item="logEntryEvent">
-                        <div key={logEntryEvent.key} class="event-stream-entry">
-                            <span key={logEntryEvent.key} class="timestamp">{logEntryEvent.Timestamp__c}</span>
-                            <span key={logEntryEvent.key} class="logged-by">{logEntryEvent.LoggedByUsername__c} - {logEntryEvent.key}</span>
-                            <span key={logEntryEvent.key} class="origin">{logEntryEvent.OriginType__c}.{logEntryEvent.OriginLocation__c} </span>
-                            <span key={logEntryEvent.key} class="logging-level">{logEntryEvent.LoggingLevel__c}</span>
-                            <span key={logEntryEvent.key} class="message">{logEntryEvent.Message__c}</span>
+                            </lightning-datatable>
                         </div>
                     </template>
                 </div>
-            </div>
-        </article>
+            </article>
+        </div>
     </div>
 </template>

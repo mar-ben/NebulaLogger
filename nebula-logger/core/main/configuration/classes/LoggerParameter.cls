@@ -104,6 +104,7 @@ public class LoggerParameter {
             if (DEVELOPER_NAME_TO_RECORD == null) {
                 DEVELOPER_NAME_TO_RECORD = loadRecords();
             }
+            System.debug('DEVELOPER_NAME_TO_RECORD=' + DEVELOPER_NAME_TO_RECORD);
             return DEVELOPER_NAME_TO_RECORD;
         }
         private set;
@@ -343,6 +344,7 @@ public class LoggerParameter {
      * @param defaultValue The default list to return when the parameter / value doesn't exist.
      * @return A list that's retrieved using the parameter if it's not null, otherwise the default list is returned.
      */
+    @AuraEnabled
     public static List<String> getStringList(String parameterDeveloperName, List<String> defaultValue) {
         List<String> parameterValue = (List<String>) castParameterValue(parameterDeveloperName, List<String>.class);
         return parameterValue != null ? parameterValue : defaultValue;

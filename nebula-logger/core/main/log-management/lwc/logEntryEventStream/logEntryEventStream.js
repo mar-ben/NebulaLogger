@@ -6,13 +6,37 @@
 import { LightningElement } from 'lwc';
 import { subscribe, unsubscribe } from 'lightning/empApi';
 import getSchemaForName from '@salesforce/apex/LoggerSObjectMetadata.getSchemaForName';
-
+import getStringList from '@salesforce/apex/LoggerParameter.getStringList';
 export default class LogEntryEventStream extends LightningElement {
     unfilteredEvents = [];
     logEntryEvents = [];
     isExpanded = false;
     isStreamEnabled = true;
     isStreamSettingExpanded = true;
+    isConsoleViewEnabled = true;
+    selectViewMenuIcon = 'utility:apex'; //default console view
+
+    selectViewMenuOptions = [
+        {
+            id: 'console-view',
+            iconName: 'utility:apex',
+            label: 'Console View',
+            value: 'console',
+            checked: true //default console view enabled.
+        },
+        {
+            id: 'table-view',
+            iconName: 'utility:table',
+            label: 'Table View',
+            value: 'table',
+            checked: false
+        }
+    ];
+
+    //data table
+    logEntryEventStreamDataTableColumns = [];
+    DEFAULT_DATATABLE_COLUMNS = ['Timestamp__c', 'LoggedByUsername__c', 'OriginLocation__c', 'LoggingLevel__c', 'Message__c'];
+    dataTableColumns = [];
 
     // Filters
     loggedByFilter;
@@ -30,11 +54,30 @@ export default class LogEntryEventStream extends LightningElement {
     async connectedCallback() {
         document.title = 'Log Entry Event Stream';
 
-        getSchemaForName({ sobjectApiName: 'LogEntryEvent__e' }).then(result => {
-            this._logEntryEventSchema = result;
+        Promise.all([
+            getSchemaForName({ sobjectApiName: 'LogEntryEvent__e' }),
+            getStringList({ parameterDeveloperName: 'logEntryEventStreamTableColumns', defaultValue: this.DEFAULT_DATATABLE_COLUMNS })
+        ]).then(([getSchemaForNameResult, getStringListResult]) => {
+            this._logEntryEventSchema = getSchemaForNameResult;
             this._channel = '/event/' + this._logEntryEventSchema.apiName;
-
+            this.logEntryEventStreamDataTableColumns = getStringListResult;
             this.createSubscription();
+            this.loadDataTableColumns();
+        });
+    }
+
+    loadDataTableColumns() {
+        this.dataTableColumns = [];
+        this.logEntryEventStreamDataTableColumns.forEach(column => {
+            const aField = this._logEntryEventSchema.fields[column];
+            if (aField) {
+                const formattedColumn = {
+                    label: aField.label,
+                    fieldName: aField.apiName,
+                    type: aField.type
+                };
+                this.dataTableColumns.push(formattedColumn);
+            }
         });
     }
 
@@ -124,8 +167,32 @@ export default class LogEntryEventStream extends LightningElement {
 
     onToggleExpand() {
         let consoleBlock = this.template.querySelector('[data-id="event-stream-console"]');
-        consoleBlock.className = this.isExpanded ? 'slds-card slds-grow slds-m-left_medium' : 'slds-card slds-grow slds-m-left_medium expanded';
+        consoleBlock.className = this.isExpanded ? 'slds-card ' : 'slds-card  expanded';
         this.isExpanded = !this.isExpanded;
+    }
+
+    onSelectView(event) {
+        const selectedView = event.detail.value;
+        let selectedViewOption = this.selectViewMenuOptions.filter(action => action.value === selectedView);
+        this.selectViewMenuOptions = this.selectViewMenuOptions.map(action => {
+            action.checked = !action.checked;
+            return action;
+        });
+        this.selectViewMenuIcon = selectedViewOption[0].iconName;
+        this.isConsoleViewEnabled = selectedView === 'console' ? true : false;
+    }
+
+    onToggleSplitView() {
+        const splitViewContainerElement = this.template.querySelector('[data-id="split-view-container"');
+        const splitViewToggleButtonElement = this.template.querySelector('[data-id="split-view-button"');
+        this.isStreamSettingExpanded = !this.isStreamSettingExpanded;
+        if (this.isStreamSettingExpanded) {
+            splitViewContainerElement.classList.replace('slds-is-closed', 'slds-is-open');
+            splitViewToggleButtonElement.classList.replace('slds-is-closed', 'slds-is-open');
+        } else {
+            splitViewContainerElement.classList.replace('slds-is-open', 'slds-is-closed');
+            splitViewToggleButtonElement.classList.replace('slds-is-open', 'slds-is-closed');
+        }
     }
 
     onToggleStream() {
@@ -133,22 +200,7 @@ export default class LogEntryEventStream extends LightningElement {
         // eslint-disable-next-line
         this.isStreamEnabled ? this.createSubscription() : this.cancelSubscription();
     }
-    onToggleStreamSettings() {
-        this.isStreamSettingExpanded = !this.isStreamSettingExpanded;
-        const splitViewContainerElement = this.template.querySelector('[data-id="split-view-container"');
-        const splitViewToggleButtonElement = this.template.querySelector('[data-id="split-view-button"');
-        if (this.isStreamSettingExpanded) {
-            splitViewContainerElement.classList.add('slds-is-open');
-            splitViewContainerElement.classList.remove('slds-is-closed');
-            splitViewToggleButtonElement.classList.add('slds-is-open');
-            splitViewToggleButtonElement.classList.remove('slds-is-closed');
-        } else {
-            splitViewContainerElement.classList.add('slds-is-closed');
-            splitViewContainerElement.classList.remove('slds-is-open');
-            splitViewToggleButtonElement.classList.add('slds-is-closed');
-            splitViewToggleButtonElement.classList.remove('slds-is-open');
-        }
-    }
+
     // Private functions
     _filterEvents() {
         while (this.unfilteredEvents.length > this.maxEvents) {

@@ -2,19 +2,11 @@
     position: fixed;
     top: 0;
     left: 0;
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
     z-index: 9999;
     padding: 0;
     margin: 0;
-}
-
-.expanded .event-stream {
-    /*height: 100vh;*/
-    height: calc(100% -70px);
-}
-.event-stream-card {
-    height: 100%;
 }
 
 .event-stream {
@@ -63,6 +55,13 @@
 
 .main-container {
     display: flex;
+    width: 100vw;
+}
+.event-stream-container {
+    width: calc(100vw - 24rem);
+}
+
+.height-full {
     height: 100%;
 }
 
